@@ -53,12 +53,12 @@ export const WaferViewer = memo(function WaferViewer({
         cameraKey={cameraKey}
         controlsRef={controlsRef}
       />
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[5, 5, 5]} intensity={1} />
-      <directionalLight position={[-5, 5, -5]} intensity={0.3} />
-
+      <ambientLight intensity={0.6} />
+      <directionalLight position={[5, 5, 5]} intensity={1.2} />
+      <directionalLight position={[-5, 5, -5]} intensity={0.5} />
+      <directionalLight position={[0, 10, 0]} intensity={0.4} />
+      <directionalLight position={[0, -5, 5]} intensity={0.3} />
       <Substrate width={WAFER_WIDTH} depth={WAFER_DEPTH} />
-
       {layers.map((layer) => (
         <WaferLayer
           key={layer.id}
@@ -68,7 +68,6 @@ export const WaferViewer = memo(function WaferViewer({
           scale={NM_SCALE}
         />
       ))}
-
       {resist && (
         <Pattern
           side={resist}
@@ -77,7 +76,6 @@ export const WaferViewer = memo(function WaferViewer({
           waferDepth={WAFER_DEPTH}
         />
       )}
-
       <OrbitControls
         ref={controlsRef}
         enablePan={true}
@@ -86,7 +84,6 @@ export const WaferViewer = memo(function WaferViewer({
         minDistance={3}
         maxDistance={100}
       />
-
       <gridHelper args={[10, 10, "#444", "#333"]} position={[0, -0.5, 0]} />
     </Canvas>
   );
