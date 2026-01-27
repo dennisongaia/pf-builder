@@ -16,6 +16,15 @@ export const CONTENT = {
       maxHeight: "Max Height",
     },
   },
+  viewer: {
+    viewLabel: "View:",
+    views: {
+      side: "Side",
+      top: "Top",
+      threeD: "3D",
+    },
+    resetCamera: "Reset Camera",
+  },
   steps: {
     stepType: "Step Type",
     deposit: "Deposit",
@@ -32,5 +41,4 @@ export const CONTENT = {
     materialC: "Material C",
     layers: "Layers",
   },
-  viewer: {},
 } as const;

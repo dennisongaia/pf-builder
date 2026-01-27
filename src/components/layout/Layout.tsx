@@ -1,10 +1,13 @@
-import type { Step, StepInput } from "@/lib/steps";
 import { Header } from "./Header";
 import { Sidebar } from "./Sidebar";
-import type { Material } from "@/lib/materials";
+import { ViewerContainer } from "./ViewerContainer";
+import type { Step, StepInput } from "@/lib/steps";
+import type { Layer, Material, ResistPosition } from "@/lib/materials";
 
 interface LayoutProps {
   steps: Step[];
+  layers: Layer[];
+  resist: ResistPosition;
   onAddStep: (step: StepInput) => void;
   onDeleteStep: (id: string) => void;
   onReorderSteps: (steps: Step[]) => void;
@@ -18,6 +21,8 @@ interface LayoutProps {
 
 export function Layout({
   steps,
+  layers,
+  resist,
   onAddStep,
   onDeleteStep,
   onReorderSteps,
@@ -38,6 +43,7 @@ export function Layout({
           onUpdatePattern={onUpdatePattern}
           onUpdateEtch={onUpdateEtch}
         />
+        <ViewerContainer layers={layers} resist={resist} />
       </div>
     </div>
   );

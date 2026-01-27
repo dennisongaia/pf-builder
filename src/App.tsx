@@ -4,6 +4,8 @@ import { useSteps } from "./hooks/useSteps";
 function App() {
   const {
     steps,
+    layers,
+    resist,
     addStep,
     deleteStep,
     reorderSteps,
@@ -15,6 +17,8 @@ function App() {
   return (
     <Layout
       steps={steps}
+      layers={layers}
+      resist={resist}
       onAddStep={addStep}
       onDeleteStep={deleteStep}
       onReorderSteps={reorderSteps}
