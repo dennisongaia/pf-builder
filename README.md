@@ -1,73 +1,54 @@
-# React + TypeScript + Vite
+# Process Flow Builder
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React application for visualizing semiconductor wafer fabrication processes including deposition, patterning, and etching operations.
 
-Currently, two official plugins are available:
+## Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[View Live Demo](https://pf-builder.vercel.app/)
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Getting Started
 
-## Expanding the ESLint configuration
+### Prerequisites
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Node.js 18+ 
+- npm or yarn
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Installation
+```bash
+# Clone the repository
+git clone https://https://github.com/dennisongaia/pf-builder.git
+cd pf-builder
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+# Install dependencies
+npm install
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Start development server
+npm run dev
 ```
+## Architecture & Design Decisions
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 3D Visualization
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+While the assignment only required a 2D visualizer, I chose to implement a 3D version using React Three Fiber. This provides a more practical tool for real-world scenarios where users might need to inspect layer geometry from multiple angles—not just a fixed side view. The 3D approach is also more useful for more complicated patterning beyond just left/right.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Data Flow
+
+Steps are the single source of truth.The user defines a sequence of process steps (deposit, pattern, etch), and everything else is computed from this sequence. This makes the data flow predictable and eliminates sync issues between state and visualization.
+
+### Performance Considerations
+
+- **`useMemo`** for expensive computations (layer calculation, validation)
+- **`useCallback`** for stable function references passed to children
+- **`memo`** on 3D components to prevent unnecessary re-renders
+- **Stable keys** (UUIDs) for React reconciliation in lists and 3D scenes
+
+### State Management
+
+A single custom hook (`useSteps`) encapsulates all core logic
+
+### Types
+
+Used TypeScript discriminated unions for type-safe step handling
+

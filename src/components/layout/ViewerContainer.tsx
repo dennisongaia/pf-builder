@@ -4,7 +4,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RotateCcw } from "lucide-react";
 import { WaferViewer } from "../three/WaferViewer";
 import type { Layer, ResistPosition } from "@/lib/materials";
-import { useCallback, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import type { OrbitControls as OrbitControlsType } from "three-stdlib";
 
 type ViewMode = "side" | "top" | "3d";
@@ -29,14 +29,14 @@ export function ViewerContainer({ layers, resist }: ViewerContainerProps) {
     setViewMode(mode);
   };
 
-  const handleResetCamera = useCallback(() => {
+  const handleResetCamera = () => {
     setCameraKey((prev) => prev + 1);
 
     if (controlsRef.current) {
       controlsRef.current.target.set(0, 0, 0);
       controlsRef.current.update();
     }
-  }, []);
+  };
 
   return (
     <main className="flex-1 flex flex-col bg-background">
