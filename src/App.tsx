@@ -6,6 +6,7 @@ function App() {
     steps,
     layers,
     resist,
+    warnings,
     addStep,
     deleteStep,
     reorderSteps,
@@ -19,6 +20,7 @@ function App() {
       steps={steps}
       layers={layers}
       resist={resist}
+      warnings={warnings}
       onAddStep={addStep}
       onDeleteStep={deleteStep}
       onReorderSteps={reorderSteps}

@@ -27,9 +27,18 @@ export const WaferViewer = memo(function WaferViewer({
   cameraKey,
   controlsRef,
 }: WaferViewerProps) {
-  const maxSurfaceHeight = layers.reduce((max, layer) => {
-    return Math.max(max, layer.leftTop, layer.rightTop);
+  const leftSurfaceHeight = layers.reduce((max, layer) => {
+    return Math.max(max, layer.leftTop);
   }, 0);
+
+  const rightSurfaceHeight = layers.reduce((max, layer) => {
+    return Math.max(max, layer.rightTop);
+  }, 0);
+
+  const resistYPosition =
+    resist === "left"
+      ? leftSurfaceHeight * NM_SCALE
+      : rightSurfaceHeight * NM_SCALE;
 
   return (
     <Canvas
@@ -63,7 +72,7 @@ export const WaferViewer = memo(function WaferViewer({
       {resist && (
         <Pattern
           side={resist}
-          yPosition={maxSurfaceHeight * NM_SCALE}
+          yPosition={resistYPosition}
           waferWidth={WAFER_WIDTH}
           waferDepth={WAFER_DEPTH}
         />
@@ -75,7 +84,7 @@ export const WaferViewer = memo(function WaferViewer({
         enableZoom={true}
         enableRotate={true}
         minDistance={3}
-        maxDistance={20}
+        maxDistance={100}
       />
 
       <gridHelper args={[10, 10, "#444", "#333"]} position={[0, -0.5, 0]} />

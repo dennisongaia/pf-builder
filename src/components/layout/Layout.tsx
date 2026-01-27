@@ -3,11 +3,13 @@ import { Sidebar } from "./Sidebar";
 import { ViewerContainer } from "./ViewerContainer";
 import type { Step, StepInput } from "@/lib/steps";
 import type { Layer, Material, ResistPosition } from "@/lib/materials";
+import type { StepWarning } from "@/lib/validation";
 
 interface LayoutProps {
   steps: Step[];
   layers: Layer[];
   resist: ResistPosition;
+  warnings: StepWarning[];
   onAddStep: (step: StepInput) => void;
   onDeleteStep: (id: string) => void;
   onReorderSteps: (steps: Step[]) => void;
@@ -23,6 +25,7 @@ export function Layout({
   steps,
   layers,
   resist,
+  warnings,
   onAddStep,
   onDeleteStep,
   onReorderSteps,
@@ -36,6 +39,7 @@ export function Layout({
       <div className="flex-1 flex overflow-hidden relative">
         <Sidebar
           steps={steps}
+          warnings={warnings}
           onAddStep={onAddStep}
           onDeleteStep={onDeleteStep}
           onReorderSteps={onReorderSteps}

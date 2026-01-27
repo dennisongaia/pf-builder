@@ -6,6 +6,7 @@ import {
   MATERIALS,
 } from "@/lib/materials";
 import type { Step, DepositStep, EtchStep, StepInput } from "@/lib/steps";
+import { validateSteps } from "@/lib/validation";
 
 interface FlowState {
   layers: Layer[];
@@ -17,6 +18,10 @@ export function useSteps() {
 
   const { layers, resist } = useMemo(() => {
     return handleFlowState(steps);
+  }, [steps]);
+
+  const warnings = useMemo(() => {
+    return validateSteps(steps);
   }, [steps]);
 
   const addStep = useCallback((step: StepInput) => {
@@ -79,6 +84,7 @@ export function useSteps() {
     steps,
     layers,
     resist,
+    warnings,
     addStep,
     deleteStep,
     reorderSteps,

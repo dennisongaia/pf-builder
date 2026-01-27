@@ -1,4 +1,4 @@
-import { CONTENT } from "@/constants/content";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -7,15 +7,17 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { PanelLeft } from "lucide-react";
+import { StepList } from "@/components/steps/StepList";
+import { AddStepDialog } from "@/components/steps/AddStepDialog";
+import { PanelLeft, AlertTriangle, Info } from "lucide-react";
+import { CONTENT } from "@/constants/content";
 import type { Step, StepInput } from "@/lib/steps";
-import { useState } from "react";
 import type { Material } from "@/lib/materials";
-import { AddStepDialog } from "../steps/AddStepDialog";
-import { StepList } from "../steps/StepList";
+import { getWarningCounts, type StepWarning } from "@/lib/validation";
 
 interface SidebarProps {
   steps: Step[];
+  warnings: StepWarning[];
   onAddStep: (step: StepInput) => void;
   onDeleteStep: (id: string) => void;
   onReorderSteps: (steps: Step[]) => void;
@@ -29,6 +31,7 @@ interface SidebarProps {
 
 function SidebarContent({
   steps,
+  warnings,
   onAddStep,
   onDeleteStep,
   onReorderSteps,
@@ -37,6 +40,8 @@ function SidebarContent({
   onUpdateEtch,
 }: SidebarProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const warningCounts = getWarningCounts(warnings);
+
   return (
     <>
       <div className="flex-none p-4 border-b border-border flex flex-col gap-3">
@@ -56,6 +61,7 @@ function SidebarContent({
       <div className="flex-1 overflow-y-auto p-4">
         <StepList
           steps={steps}
+          warnings={warnings}
           onDelete={onDeleteStep}
           onReorder={onReorderSteps}
           onUpdateDeposit={onUpdateDeposit}
@@ -65,8 +71,27 @@ function SidebarContent({
       </div>
 
       <div className="flex-none p-4 border-t border-border bg-muted/30">
-        <div className="text-xs text-muted-foreground">
-          {CONTENT.sidebar.summary.totalSteps}: {steps.length}
+        <div className="flex items-center justify-between">
+          <div className="text-xs text-muted-foreground">
+            {CONTENT.sidebar.summary.totalSteps}: {steps.length}
+          </div>
+
+          {(warningCounts.warning > 0 || warningCounts.info > 0) && (
+            <div className="flex items-center gap-2 text-xs">
+              {warningCounts.warning > 0 && (
+                <span className="flex items-center gap-1 text-yellow-600 dark:text-yellow-400">
+                  <AlertTriangle className="h-3 w-3" />
+                  {warningCounts.warning}
+                </span>
+              )}
+              {warningCounts.info > 0 && (
+                <span className="flex items-center gap-1 text-blue-600 dark:text-blue-400">
+                  <Info className="h-3 w-3" />
+                  {warningCounts.info}
+                </span>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </>

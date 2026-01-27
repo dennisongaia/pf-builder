@@ -14,8 +14,8 @@ export const MATERIALS: Record<Material, MaterialProps> = {
     name: "Material A",
     thickness: 1.0,
     etchRate: 0.5,
-    color: "#3b82f6",
-    metalness: 0.8,
+    color: "#60a5fa",
+    metalness: 0.7,
     roughness: 0.2,
   },
   B: {

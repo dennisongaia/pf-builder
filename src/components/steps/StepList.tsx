@@ -16,10 +16,12 @@ import {
 import { CONTENT } from "@/constants/content";
 import type { Step } from "@/lib/steps";
 import type { Material } from "@/lib/materials";
+import { getWarningsForStep, type StepWarning } from "@/lib/validation";
 import { StepCard } from "./StepCard";
 
 interface StepListProps {
   steps: Step[];
+  warnings: StepWarning[];
   onDelete: (id: string) => void;
   onReorder: (steps: Step[]) => void;
   onUpdateDeposit: (
@@ -32,6 +34,7 @@ interface StepListProps {
 
 export function StepList({
   steps,
+  warnings,
   onDelete,
   onReorder,
   onUpdateDeposit,
@@ -41,7 +44,7 @@ export function StepList({
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 8, // prevent accidental drags
+        distance: 8,
       },
     }),
     useSensor(KeyboardSensor, {
@@ -86,6 +89,7 @@ export function StepList({
               key={step.id}
               step={step}
               index={index}
+              warnings={getWarningsForStep(warnings, step.id)}
               onDelete={() => onDelete(step.id)}
               onUpdateDeposit={(updates) => onUpdateDeposit(step.id, updates)}
               onUpdatePattern={(updates) => onUpdatePattern(step.id, updates)}
