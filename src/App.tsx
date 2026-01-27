@@ -1,15 +1,7 @@
-import { Button } from "./components/ui/button";
+import { Layout } from "./components/layout/Layout";
 
 function App() {
-  return (
-    <>
-      <div className="h-screen w-screen">
-        <div className="flex min-h-svh flex-col items-center justify-center">
-          <Button>Click me</Button>
-        </div>
-      </div>
-    </>
-  );
+  return <Layout />;
 }
 
 export default App;
