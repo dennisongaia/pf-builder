@@ -41,6 +41,8 @@ export type ResistPosition = "left" | "right" | null;
 export interface Layer {
   id: string;
   material: Material;
-  leftThickness: number; // nm
-  rightThickness: number; // nm
+  leftBottom: number; // nm from substrate
+  leftTop: number; // nm from substrate
+  rightBottom: number; // nm from substrate
+  rightTop: number;
 }
